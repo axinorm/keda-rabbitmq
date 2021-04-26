@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: rabbitmq-sender
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: localhost:5000/rabbitmq-sender
+        name: rabbitmq-sender
+        env:
+        - name: RMQ_USERNAME
+          value: rmquser
+        - name: RMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq
+              key: rabbitmq-password
+        - name: RMQ_QUEUE
+          value: hello
+        resources: {}
+      restartPolicy: Never
+status: {}
